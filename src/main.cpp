@@ -1,8 +1,6 @@
-#include <glm/glm.hpp>
-#include <iostream>
-#include "FreeImage.h"
+#include <main.h>
 
-void main()
+void main(int argc, char** argv)
 {
 	std::cout << "import success";
 }
