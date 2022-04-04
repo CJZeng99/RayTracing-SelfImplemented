@@ -3,7 +3,8 @@
 
 #include <glm/glm.hpp>
 #include <iostream>
-#include "FreeImage.h"
 #include <string>
+#include "FreeImage.h"
+
 
 #endif
