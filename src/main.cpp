@@ -14,7 +14,13 @@ static void CreateImage(unsigned char* pixels, int width, int height, std::strin
 
 void main(int argc, char** argv)
 {
-	// TODO: command line parsing
+	//command line parsing
+	char* inputName = argv[1];
+	int width = std::stoi(argv[2]);
+	int height = std::stoi(argv[3]);
+	int depth = std::stoi(argv[4]);
+	char* outputName = argv[5];
+	
 	// TODO: input file parsing
 	// TODO: camera setup
 	// TODO: object setup
