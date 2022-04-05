@@ -8,11 +8,15 @@
 class Triangle : public Object
 {
 private:
-
+	glm::vec3 p1;
+	glm::vec3 p2;
+	glm::vec3 p3;
 
 public:
-	Triangle(glm::vec3 center, float radius);
+	Triangle(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3);
 	~Triangle();
+
+	bool checkIntersect();
 
 };
 

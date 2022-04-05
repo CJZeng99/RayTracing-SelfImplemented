@@ -5,13 +5,17 @@
 #include "core.h"
 ////////////////////////////////////////////////////////////////////////////////
 
+enum class GeoType {sphere, tri};
 class Object
 {
-private:
-
 
 public:
-	
+
+	Object();
+	virtual ~Object() {};
+	virtual bool checkIntersect() = 0;
+	GeoType geoType;
+	glm::mat4 model;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

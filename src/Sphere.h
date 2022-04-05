@@ -8,11 +8,18 @@
 class Sphere : public Object
 {
 private:
-
+	glm::vec3 center;
+	float radius;
 
 public:
+	
+	
 	Sphere(glm::vec3 center, float radius);
 	~Sphere();
+
+	bool checkIntersect();
+	glm::vec3 getCenter();
+	glm::vec3 getRadius();
 
 };
 
