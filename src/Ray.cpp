@@ -4,9 +4,9 @@
 Ray::Ray(glm::vec3 origin, glm::vec3 direction)
 {
 	this->origin = origin;
-	this->direction = direction;
+	this->direction = glm::normalize(direction);
 	this->hasHit = false;
-	this->hitTime = 0.0;
+	this->hitTime = 0.0f;
 	this->hitNormal = glm::vec3(0.0f);
 	this->hitPoint = glm::vec3(0.0f);
 	this->hitDistance = 0.0f;
@@ -15,6 +15,19 @@ Ray::Ray(glm::vec3 origin, glm::vec3 direction)
 Ray::~Ray()
 {
 
+}
+////////////////////////////////////////////////////////////////////////////////
+void Ray::handleHit(float val)
+{
+	this->hasHit = true;
+	this->hitTime = val;
+	this->hitPoint = origin + direction * this->hitTime;
+	this->hitDistance = glm::length(direction * this->hitTime);
+}
+////////////////////////////////////////////////////////////////////////////////
+void Ray::setHitTime(float val)
+{
+	this->hitTime = val;
 }
 ////////////////////////////////////////////////////////////////////////////////
 void Ray::setOrigin(glm::vec3 val)

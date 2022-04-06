@@ -31,6 +31,8 @@ public:
 	glm::vec3 getHitPoint();
 	float getHitDistance();
 
+	void handleHit(float hitTime);
+	void setHitTime(float val);
 	void setOrigin(glm::vec3 val);
 	void setDirection(glm::vec3 val);
 	void setHasHit(bool val);

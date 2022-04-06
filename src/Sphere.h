@@ -3,6 +3,7 @@
 #define _SPHERE_H_
 
 #include "Object.h"
+#include "Ray.h"
 ////////////////////////////////////////////////////////////////////////////////
 
 class Sphere : public Object
@@ -17,7 +18,7 @@ public:
 	Sphere(glm::vec3 center, float radius);
 	~Sphere();
 
-	bool checkIntersect();
+	bool checkIntersect(Ray * ray);
 	glm::vec3 getCenter();
 	glm::vec3 getRadius();
 
