@@ -1,0 +1,23 @@
+#pragma once
+#ifndef _RAYTRACER_H_
+#define _RAYTRACER_H_
+
+#include "Camera.h"
+#include "Scene.h"
+////////////////////////////////////////////////////////////////////////////////
+
+class Raytracer
+{
+private:
+
+public:
+
+	Raytracer(Camera * cam, Scene * scene);
+	~Raytracer();
+
+
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif
