@@ -30,9 +30,9 @@ bool Triangle::checkIntersect(Ray * ray)
 	
 	//check if point inside 
 	glm::vec3 guess = ray->guessPos(t);
-	if (glm::dot(glm::cross(p2 - p1, guess - p1), n) > 0 &&
-		glm::dot(glm::cross(p3 - p2, guess - p2), n) > 0 &&
-		glm::dot(glm::cross(p1 - p3, guess - p3), n) > 0) {
+	if (glm::dot(glm::cross(p2 - p1, guess - p1), n) < 0 ||
+		glm::dot(glm::cross(p3 - p2, guess - p2), n) < 0 ||
+		glm::dot(glm::cross(p1 - p3, guess - p3), n) < 0) {
 		return false;
 	}
 
