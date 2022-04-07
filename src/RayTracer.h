@@ -9,6 +9,7 @@
 
 class Raytracer
 {
+public:
 	static int depth;
 	static void tracer(Camera* cam, std::vector<Object*> objList);
 	void getColor(Ray* ray);

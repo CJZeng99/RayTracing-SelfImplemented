@@ -1,5 +1,10 @@
 #include "Camera.h"
 
+int Camera::w;
+int Camera::h;
+float Camera::zNear = 0.1f;
+float Camera::zFar = 99.0f;
+
 Camera::Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up, const float fovy, const std::string outputFile)
     : eye(eye), center(center), fovy(fovy), outputFile(outputFile)
 {

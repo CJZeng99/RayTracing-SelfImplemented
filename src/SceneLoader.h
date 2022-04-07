@@ -28,7 +28,7 @@ private:
 	std::string outputFile;
 
 	std::vector<glm::vec3> vectices;
-	std::stack <mat4> transfstack;
+	std::stack <glm::mat4> transfstack;
 
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
