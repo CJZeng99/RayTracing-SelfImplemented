@@ -11,7 +11,7 @@ class Object
 {
 
 public:
-	virtual bool checkIntersect(glm::vec3 origin, glm::vec3 dir, float& t) = 0;
+	virtual bool checkIntersect(Ray * ray) = 0;
 	GeoType geoType;
 	glm::mat4 model;
 };
