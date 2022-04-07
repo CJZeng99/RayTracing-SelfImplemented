@@ -32,10 +32,8 @@ public:
 	
 	float fovy;
 	std::string outputFile;
-	glm::mat4 projectionMtx;
 	unsigned char* pixels;
 
-	void Perspective(float fovy, float aspect, float zNear, float zFar);
 	void SaveScreenshot();
 };
 

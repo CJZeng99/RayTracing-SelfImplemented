@@ -10,4 +10,7 @@
 #include <iostream>
 
 #define EPSILON 1e-6
+#define MAX_LIGHTS 10
+#define MAX_OBJECTS 100
+
 #endif
