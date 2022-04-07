@@ -11,18 +11,27 @@
 class Camera
 {
 public:
-	Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up);
+	Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up, float fovy, std::string outputFile);
 	~Camera();
 
 	static int w, h;
-	static float fovy;
 	static float zNear;
 	static float zFar;
-	std::string outputFile;
-
+	
 	glm::vec3 eye;
 	glm::vec3 center;
 	glm::vec3 up;
+
+	glm::vec3 right;
+	glm::vec3 down;
+	glm::vec3 front;
+
+	float viewX;
+	float viewY;
+	float viewZ;
+	
+	float fovy;
+	std::string outputFile;
 	glm::mat4 projectionMtx;
 	unsigned char* pixels;
 
