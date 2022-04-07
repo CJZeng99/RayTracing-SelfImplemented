@@ -8,4 +8,6 @@
 #include <ctype.h>
 #include <string>
 #include <iostream>
+
+#define EPSILON 1e-6
 #endif

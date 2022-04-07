@@ -1,25 +1,22 @@
 #pragma once
-#ifndef _SPHERE_H_
-#define _SPHERE_H_
+#ifndef _TRIANGLE_H_
+#define _TRIANGLE_H_
 
 #include "Object.h"
 ////////////////////////////////////////////////////////////////////////////////
 
-class Sphere : public Object
+class Triangle : public Object
 {
 private:
-	glm::vec3 center;
-	float radius;
+	glm::vec3 p1;
+	glm::vec3 p2;
+	glm::vec3 p3;
 
 public:
-	
-	
-	Sphere(glm::vec3 center, float radius);
-	~Sphere();
+	Triangle(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3);
+	~Triangle();
 
 	bool checkIntersect(Ray * ray);
-	glm::vec3 getCenter();
-	glm::vec3 getRadius();
 
 };
 

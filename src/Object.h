@@ -3,15 +3,20 @@
 #define _OBJECT_H_
 
 #include "core.h"
+#include "Ray.h"
 ////////////////////////////////////////////////////////////////////////////////
 
+enum class GeoType {sphere, tri};
 class Object
 {
-private:
-
 
 public:
-	
+
+	Object();
+	virtual ~Object() {};
+	virtual bool checkIntersect(glm::vec3 origin, glm::vec3 dir, float& t) = 0;
+	GeoType geoType;
+	glm::mat4 model;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
