@@ -95,3 +95,7 @@ float Ray::getHitDistance()
 	return this->hitDistance;
 }
 ////////////////////////////////////////////////////////////////////////////////
+glm::vec3 Ray::guessPos(float t)
+{
+	return origin + direction * t;
+}

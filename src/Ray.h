@@ -30,6 +30,7 @@ public:
 	glm::vec3 getHitNormal();
 	glm::vec3 getHitPoint();
 	float getHitDistance();
+	glm::vec3 guessPos(float t);
 
 	void handleHit(float hitTime);
 	void setHitTime(float val);
@@ -39,7 +40,7 @@ public:
 	void setHitNormal(glm::vec3 val);
 	void setHitPoint(glm::vec3 val);
 	void setHitDistance(float val);
-
+	
 };
 
 ////////////////////////////////////////////////////////////////////////////////

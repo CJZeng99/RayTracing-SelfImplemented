@@ -5,7 +5,7 @@
 #include "Object.h"
 ////////////////////////////////////////////////////////////////////////////////
 
-class Triangle : public Object
+class Triangle : Object
 {
 private:
 	glm::vec3 p1;
