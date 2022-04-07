@@ -32,6 +32,21 @@ void Raytracer::tracer(Camera* cam, std::vector<Object *> objList)
 	}
 
 }
-void Raytracer::getColor(Ray* ray) {
-
+void Raytracer::getColor(Ray* ray, std::vector<Object*> objList) {
+	float hit_min = FLT_MAX;
+	float infinity = FLT_MAX;
+	//loop through all objects
+	for (int i = 0; i < objList.size(); i++) {
+		Object* currObj = objList[i];
+		
+		//when intersect with object
+		if (currObj->checkIntersect(ray)) {
+			//check hitTime
+			if (ray->getHitTime() < hit_min) 
+			{
+				hit_min = ray->getHitTime();
+			}
+			
+		}
+	}
 }
