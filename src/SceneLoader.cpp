@@ -21,7 +21,7 @@ void SceneLoader::ReadFile(const char* filename)
 
         // I need to implement a matrix stack to store transforms.  
         // This is done using standard STL Templates 
-        transfstack.push(mat4(1.0));  // identity
+        transfstack.push(glm::mat4(1.0f));  // identity
 
         getline(in, str);
         while (in) {
@@ -123,9 +123,9 @@ void SceneLoader::ReadFile(const char* filename)
                 else if (cmd == "camera") {
                     validinput = ReadVals(s, 10, values); // 10 values eye cen up fov
                     if (validinput) {
-                        glm::vec3 eye = vec3(values[0], values[1], values[2]);
-                        glm::vec3 center = vec3(values[3], values[4], values[5]);
-                        glm::vec3 up = vec3(values[6], values[7], values[8]);
+                        glm::vec3 eye = glm::vec3(values[0], values[1], values[2]);
+                        glm::vec3 center = glm::vec3(values[3], values[4], values[5]);
+                        glm::vec3 up = glm::vec3(values[6], values[7], values[8]);
                         float fovy = values[9];
                         scene->cam = new Camera(eye, center, up, fovy, outputFile);
                     }
@@ -141,34 +141,24 @@ void SceneLoader::ReadFile(const char* filename)
                 // I've left the code for loading objects in the skeleton, so 
                 // you can get a sense of how this works.  
                 // Also look at demo.txt to get a sense of why things are done this way.
-                else if (cmd == "sphere" || cmd == "tri") {
+                else if (cmd == "sphere") {
                     if (scene->objects.size() == MAX_OBJECTS) { // No more objects 
                         std::cerr << "Reached Maximum Number of Objects " << scene->objects.size() << " Will ignore further objects\n";
                     }
                     else {
                         validinput = ReadVals(s, 1, values);
                         if (validinput) {
-                            Object* obj;
-
-                            // Set the object's type
-                            if (cmd == "sphere") {
-                                glm::vec3 center = glm::vec3(values[0], values[1], values[2]);
-                                float radius = values[3];
-                                obj = (Object*) new Sphere(center, radius);
-                                obj->geoType = GeoType::sphere;
-                            }
-                            else if (cmd == "tri") {
-                                obj = (Object*) new Triangle(vectices[values[0]], vectices[values[1]], vectices[values[2]]);
-                                obj->geoType = GeoType::tri;
-                            }
-                            
+                            glm::vec3 center = glm::vec3(values[0], values[1], values[2]);
+                            float radius = values[3];
+                            Object* obj = (Object*) new Sphere(center, radius);
+                            obj->geoType = GeoType::sphere;
 
                             // Set the object's light properties
                             for (i = 0; i < 3; i++) {
-                                (obj->ambient)[i] = ambient[i];
-                                (obj->diffuse)[i] = diffuse[i];
-                                (obj->specular)[i] = specular[i];
-                                (obj->emission)[i] = emission[i];
+                                obj->ambient  = ambient;
+                                obj->diffuse  = diffuse;
+                                obj->specular = specular;
+                                obj->emission = emission;
                             }
                             obj->shininess = shininess;
 
@@ -178,6 +168,33 @@ void SceneLoader::ReadFile(const char* filename)
                             scene->objects.push_back(obj);
                         }
                     }
+                }
+
+                else if (cmd == "tri") {
+                if (scene->objects.size() == MAX_OBJECTS) { // No more objects 
+                    std::cerr << "Reached Maximum Number of Objects " << scene->objects.size() << " Will ignore further objects\n";
+                }
+                else {
+                    validinput = ReadVals(s, 1, values);
+                    if (validinput) {
+                        Object* obj = (Object*) new Triangle(vectices[values[0]], vectices[values[1]], vectices[values[2]]);
+                        obj->geoType = GeoType::tri;
+
+                        // Set the object's light properties
+                        for (i = 0; i < 3; i++) {
+                            obj->ambient = ambient;
+                            obj->diffuse = diffuse;
+                            obj->specular = specular;
+                            obj->emission = emission;
+                        }
+                        obj->shininess = shininess;
+
+                        // Set the object's transform
+                        obj->model = transfstack.top();
+
+                        scene->objects.push_back(obj);
+                    }
+                }
                 }
 
                 else if (cmd == "translate") {

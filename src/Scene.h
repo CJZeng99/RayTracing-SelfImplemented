@@ -13,7 +13,6 @@ public:
 	~Scene();
 
 	Camera* cam;
-	std::vector<glm::vec3> vertices;
 	std::vector<Object*> objects;
 };
 

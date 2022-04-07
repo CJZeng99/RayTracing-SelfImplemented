@@ -1,6 +1,8 @@
 #pragma once
 #include "Raytracer.h"
 
+int Raytracer::depth;
+
 ////////////////////////////////////////////////////////////////////////////////
 void Raytracer::tracer(Camera* cam, std::vector<Object *> objList)
 {

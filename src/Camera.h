@@ -36,8 +36,5 @@ public:
 
 	void SaveScreenshot();
 };
-
-float Camera::zNear = 0.1f;
-float Camera::zFar = 99.0f;
 #endif
 
