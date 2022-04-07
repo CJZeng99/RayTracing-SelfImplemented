@@ -20,7 +20,7 @@ private:
 
 public:
 
-	Ray(glm::vec3 origin, glm::vec3 direction);
+	Ray(const glm::vec3 &origin, const glm::vec3 &direction);
 	~Ray();
 
 	glm::vec3 getOrigin();

@@ -3,19 +3,15 @@
 #define _RAYTRACER_H_
 
 #include "Camera.h"
-#include "Scene.h"
+#include "Object.h"
+#include "Ray.h"
 ////////////////////////////////////////////////////////////////////////////////
 
 class Raytracer
 {
-private:
-
-public:
-
-	Raytracer(Camera * cam, Scene * scene);
-	~Raytracer();
-
-
+	static int depth;
+	static void tracer(Camera* cam, std::vector<Object*> objList);
+	void getColor(Ray* ray);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
