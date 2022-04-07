@@ -1,45 +1,56 @@
-#include "main.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <deque>
+#include <stack>
+#include "Transform.h"
+#include "FreeImage.h"
 
+using namespace std; 
 
-static void CreateImage(unsigned char* pixels, int width, int height, std::string outPath)
-{
-	FreeImage_Initialise();
+// Main variables in the program.  
+#define MAINPROGRAM 
+#include "variables.h" 
+#include "readfile.h" // prototypes for readfile.cpp  
 
+// Reshapes the window
+void reshape(int width, int height){
+  w = width;
+  h = height;
 
-	FIBITMAP* img = FreeImage_ConvertFromRawBits(pixels, width, height, width * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, true);
-	FreeImage_Save(FIF_PNG, img, outPath.c_str(), 0);
-	FreeImage_DeInitialise();
+  float aspect = (float) w / (float) h, zNear = 0.1f, zFar = 99.0f;
 
+  projection = Transform::perspective(fovy,aspect,zNear,zFar);
 }
 
-void main(int argc, char** argv)
-{
-	//command line parsing
-	char* inputName = argv[1];
-	int width = std::stoi(argv[2]);
-	int height = std::stoi(argv[3]);
-	int depth = std::stoi(argv[4]);
-	char* outputName = argv[5];
-	
-	// TODO: input file parsing
-	// TODO: camera setup
-	// TODO: object setup
-	// TODO: acceleration implementation
-	// TODO: raytracing
+void saveScreenshot(string fname) {
+  int pix = w * h;
+  BYTE *pixels = new BYTE[3*pix];	
+  for (int i = 0; i < 3*pix; i++) {
+      unsigned char* pixelPtr = pixels + i * sizeof(BYTE);
+      if (pixelPtr) *pixelPtr = '\255';
+  }
 
-	// create pixel bitmap (test only)
-	unsigned char* pixels = (unsigned char*)malloc((3 * 100 * 100) * sizeof(char));;
-	for (int i = 0; i < 3 * 100 * 100; i++)
-	{
-		unsigned char* pixelPtr = pixels + i * sizeof(char);
-		if (pixelPtr)
-			*pixelPtr = '\255';
-	}
+  FIBITMAP *img = FreeImage_ConvertFromRawBits(pixels, w, h, w * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
 
-	// create image
-	std::string fname = "output/IllSendYouToJesus.png";
-	CreateImage(pixels, 100, 100, fname);
+  std::cout << "Saving screenshot: " << fname << "\n";
 
-	// clean memory
-	free(pixels);
+  FreeImage_Save(FIF_PNG, img, fname.c_str(), 0);
+  delete[] pixels;
+}
+
+int main(int argc, char* argv[]) {
+
+  if (argc != 2) {
+    cerr << "Usage: transforms scenefile [grader input (optional)]\n"; 
+    exit(-1); 
+  }
+
+  FreeImage_Initialise();
+
+  readfile(argv[1]); 
+
+  FreeImage_DeInitialise();
+  return 0;
 }
