@@ -17,16 +17,26 @@ Triangle::~Triangle()
 ////////////////////////////////////////////////////////////////////////////////
 bool Triangle::checkIntersect(Ray * ray)
 {
-	//TODO check intersection inside triangle
+	//check intersection inside triangle
 	glm::vec3 n = glm::cross(p2 - p1, p3 - p2);
 	n = glm::normalize(n);
+	
 	//check if parallel
-	if (abs(glm::dot(n, ray->getDirection()))< EPSILON) {
+	if (glm::dot(n, ray->getDirection()) <= 0) {
 		return false;
 	}
-	
-	
+	//calculating t 
 	float t = (glm::dot(p1, n) - glm::dot(ray->getOrigin(), n)) / glm::dot(ray->getDirection(), n);
+	
+	//check if point inside 
+	glm::vec3 guess = ray->guessPos(t);
+	if (glm::dot(glm::cross(p2 - p1, guess - p1), n) < 0 ||
+		glm::dot(glm::cross(p3 - p2, guess - p2), n) < 0 ||
+		glm::dot(glm::cross(p1 - p3, guess - p3), n) < 0) {
+		return false;
+	}
+
+	//handle hit time 
 	ray->handleHit(t);
 	return true;
 }

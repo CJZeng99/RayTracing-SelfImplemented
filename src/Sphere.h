@@ -5,15 +5,14 @@
 #include "Object.h"
 ////////////////////////////////////////////////////////////////////////////////
 
-class Sphere : public Object
+class Sphere : Object
 {
 private:
 	glm::vec3 center;
 	float radius;
 
 public:
-	
-	
+
 	Sphere(glm::vec3 center, float radius);
 	~Sphere();
 
