@@ -15,18 +15,18 @@ public:
 class DirectionalLight : public Light
 {
 public:
-	DirectionalLight();
-	~DirectionalLight();
+	
 	glm::vec3 direction;
 	DirectionalLight(const glm::vec3& direction, const glm::vec3& color);
+	~DirectionalLight();
 };
 
 class PointLight : public Light
 {
 public:
-	PointLight();
-	~PointLight();
+	
 	glm::vec3 position;
 	PointLight(const glm::vec3& position, const glm::vec3& color);
+	~PointLight();
 };
 
