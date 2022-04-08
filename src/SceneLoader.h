@@ -12,9 +12,10 @@
 #include "Object.h"
 #include "Sphere.h"
 #include "Triangle.h"
-#include "Raytracer.h"
+#include "RayTracer.h"
 #include "core.h"
 
+class Scene;
 class SceneLoader
 {
 public:

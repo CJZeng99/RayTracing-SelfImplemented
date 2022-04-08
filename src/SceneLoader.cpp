@@ -1,8 +1,7 @@
 #include "SceneLoader.h"
 
 SceneLoader::SceneLoader(Scene* scene)
-    : scene(scene)
-{}
+    : scene(scene) {}
 
 bool SceneLoader::ReadVals(std::stringstream& s, const int numvals, float* values)
 {
@@ -48,7 +47,25 @@ void SceneLoader::ReadFile(const char* filename)
                     else {
                         validinput = ReadVals(s, 6, values); // Position/color for lts.
                         if (validinput) {
-                            
+                            glm::vec3 direction = glm::vec3(values[0], values[1], values[2]);
+                            glm::vec3 color = glm::vec3(values[3], values[4], values[5]);
+                            Light* light = (Light*) new DirectionalLight(direction, color);
+                            scene->lights.push_back(light);
+                        }
+                    }
+                }
+
+                if (cmd == "point") {
+                    if (scene->lights.size() == MAX_LIGHTS) { // No more Lights 
+                        std::cerr << "Reached Maximum Number of Lights " << scene->lights.size() << " Will ignore further lights\n";
+                    }
+                    else {
+                        validinput = ReadVals(s, 6, values); // Position/color for lts.
+                        if (validinput) {
+                            glm::vec3 position = glm::vec3(values[0], values[1], values[2]);
+                            glm::vec3 color = glm::vec3(values[3], values[4], values[5]);
+                            Light* light = (Light*) new PointLight(position, color);
+                            scene->lights.push_back(light);
                         }
                     }
                 }
@@ -154,7 +171,6 @@ void SceneLoader::ReadFile(const char* filename)
 
                             // Set the object's light properties
                             for (i = 0; i < 3; i++) {
-                                obj->ambient  = ambient;
                                 obj->diffuse  = diffuse;
                                 obj->specular = specular;
                                 obj->emission = emission;
@@ -181,7 +197,6 @@ void SceneLoader::ReadFile(const char* filename)
 
                         // Set the object's light properties
                         for (i = 0; i < 3; i++) {
-                            obj->ambient = ambient;
                             obj->diffuse = diffuse;
                             obj->specular = specular;
                             obj->emission = emission;
