@@ -57,8 +57,7 @@ void SceneLoader::ReadFile(const char* filename)
                         }
                     }
                 }
-
-                if (cmd == "point") {
+                else if (cmd == "point") {
                     if (scene->lights.size() == MAX_LIGHTS) { // No more Lights 
                         std::cerr << "Reached Maximum Number of Lights " << scene->lights.size() << " Will ignore further lights\n";
                     }
@@ -165,7 +164,7 @@ void SceneLoader::ReadFile(const char* filename)
                         std::cerr << "Reached Maximum Number of Objects " << scene->objects.size() << " Will ignore further objects\n";
                     }
                     else {
-                        validinput = ReadVals(s, 1, values);
+                        validinput = ReadVals(s, 3, values);
                         if (validinput) {
                             glm::vec3 center = glm::vec3(values[0], values[1], values[2]);
                             float radius = values[3];
@@ -193,7 +192,7 @@ void SceneLoader::ReadFile(const char* filename)
                     std::cerr << "Reached Maximum Number of Objects " << scene->objects.size() << " Will ignore further objects\n";
                 }
                 else {
-                    validinput = ReadVals(s, 1, values);
+                    validinput = ReadVals(s, 3, values);
                     if (validinput) {
                         Object* obj = (Object*) new Triangle(vectices[values[0]], vectices[values[1]], vectices[values[2]]);
                         obj->geoType = GeoType::tri;

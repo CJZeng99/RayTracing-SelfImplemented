@@ -7,6 +7,8 @@
 #include <iostream>
 
 #include "FreeImage.h"
+#include "Object.h"
+#include "RayTracer.h"
 
 class Camera
 {
@@ -34,7 +36,7 @@ public:
 	std::string outputFile;
 	unsigned char* pixels;
 
-	void TakeScreenshot();
+	void TakeScreenshot(const std::vector<Object*>& objList);
 	void SaveScreenshot();
 };
 #endif

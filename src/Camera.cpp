@@ -17,10 +17,11 @@ Camera::Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& u
     right = glm::normalize(glm::cross(front, up));
     viewX = aspect;
     viewY = 1.0f;
-    viewZ = glm::tan(90.0f - fovy / 2.0f);
+    viewZ = glm::tan(glm::radians(90.0f - fovy/2.0f));
 
     // pixels initialization
     pixels = new unsigned char[3 * pix];
+    // pixels = new unsigned char[3 * pix];
     for (int i = 0; i < 3 * pix; i++)
         pixels[i] = '\0';
 }
@@ -31,16 +32,24 @@ Camera::~Camera()
     delete[] pixels;
 }
 
-void Camera::TakeScreenshot() {
-    for (int i = 0; i < h/2; i++)
-    {
-        for (int j = 0; j < w/2; j++)
-        {
-            pixels[3 * (i * w + j)] = '\0';         // blue
-            pixels[3 * (i * w + j) + 1] = '\0';     // green
-            pixels[3 * (i * w + j) + 2] = '\255';   // red
-        }
-    }
+void Camera::TakeScreenshot(const std::vector<Object*>& objList) {
+    Raytracer::tracer(this, objList);
+    //for (int i = 0; i < h/2; i++)
+    //{
+    //    for (int j = 1; j < w/2; j++)
+    //    {
+    //        pixels[3 * (i * w + j)] = '\255';         // blue
+    //        pixels[3 * (i * w + j) + 1] = '\255';     // green
+    //        pixels[3 * (i * w + j) + 2] = '\0';   // red
+    //    }
+    //}
+    //for (int i = 0; i < h/2; i++)
+    //{
+    //    for (int j = 1; j < w/2; j++)
+    //    {
+    //        std::cerr << pixels[3 * (i * w + j)] << "\n";
+    //    }
+    //}
 }
 
 void Camera::SaveScreenshot() {

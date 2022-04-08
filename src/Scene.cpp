@@ -18,6 +18,7 @@ Scene::~Scene()
 
 void Scene::TakeScreenshots()
 {
-	cam->TakeScreenshot();
+
+	cam->TakeScreenshot(objects);
 	cam->SaveScreenshot();
 }

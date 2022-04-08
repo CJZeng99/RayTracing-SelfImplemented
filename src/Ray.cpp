@@ -6,7 +6,7 @@ Ray::Ray(const glm::vec3 &origin, const glm::vec3 &direction)
 	this->origin = origin;
 	this->direction = glm::normalize(direction);
 	this->hasHit = false;
-	this->hitTime = 0.0f;
+	this->hitTime = INFINITY;
 	this->hitNormal = glm::vec3(0.0f);
 	this->hitPoint = glm::vec3(0.0f);
 	this->hitDistance = 0.0f;

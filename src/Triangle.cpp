@@ -18,14 +18,14 @@ Triangle::~Triangle()
 bool Triangle::checkIntersect(Ray * ray)
 {
 	//check intersection inside triangle
-	glm::vec3 n = glm::cross(p2 - p1, p3 - p2);
+	glm::vec3 n = glm::cross(p2 - p1, p3 - p1);
 	n = glm::normalize(n);
-	
+
 	//check if parallel
-	if (glm::dot(n, ray->getDirection()) <= 0) {
+	if (glm::dot(n, ray->getDirection()) >= 0) {
 		return false;
 	}
-	//calculating t 
+	//std::cerr << "DOT: " << glm::dot(ray->getDirection(), n) << "\n";
 	float t = (glm::dot(p1, n) - glm::dot(ray->getOrigin(), n)) / glm::dot(ray->getDirection(), n);
 	
 	//check if point inside 
