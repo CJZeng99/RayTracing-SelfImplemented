@@ -25,12 +25,14 @@ public:
 
 private:
 	Scene* scene;
+
+	int maxVert;
+
 	std::string outputFile;
 
 	std::vector<glm::vec3> vectices;
 	std::stack <glm::mat4> transfstack;
 
-	glm::vec3 ambient;
 	glm::vec3 diffuse;
 	glm::vec3 specular;
 	glm::vec3 emission;

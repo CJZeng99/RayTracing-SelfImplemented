@@ -1,5 +1,9 @@
 #include "SceneLoader.h"
 
+SceneLoader::SceneLoader(Scene* scene)
+    : scene(scene)
+{}
+
 bool SceneLoader::ReadVals(std::stringstream& s, const int numvals, float* values)
 {
     for (int i = 0; i < numvals; i++) {
@@ -37,29 +41,17 @@ void SceneLoader::ReadFile(const char* filename)
 
                 // Process the light, add it to database.
                 // Lighting Command
-                //if (cmd == "directional" || cmd == "point") {
-                //    if (numused == numLights) { // No more Lights 
-                //        cerr << "Reached Maximum Number of Lights " << numused << " Will ignore further lights\n";
-                //    }
-                //    else {
-                //        validinput = ReadVals(s, 6, values); // Position/color for lts.
-                //        if (validinput) {
-                //            for (i = 0; i < 3; i++) {
-                //                lightvec[4 * numused + i] = values[i];
-                //            }
-                //            for (i = 3; i < 6; i++) {
-                //                lightcolor[4 * numused + i] = values[i];
-                //            }
-
-                //            if (cmd == "directional")
-                //                lighttype[numused] = directional;
-                //            else if (cmd == "point")
-                //                lighttype[numused] = point;
-
-                //            ++numused;
-                //        }
-                //    }
-                //}
+                if (cmd == "directional") {
+                    if (scene->lights.size() == MAX_LIGHTS) { // No more Lights 
+                        std::cerr << "Reached Maximum Number of Lights " << scene->lights.size() << " Will ignore further lights\n";
+                    }
+                    else {
+                        validinput = ReadVals(s, 6, values); // Position/color for lts.
+                        if (validinput) {
+                            
+                        }
+                    }
+                }
 
                 // Material Commands 
                 // Ambient, diffuse, specular, shininess properties for each object.
@@ -67,10 +59,17 @@ void SceneLoader::ReadFile(const char* filename)
                 // the skeleton, also as a hint of how to do the more complex ones.
                 // Note that no transforms/stacks are applied to the colors. 
 
-                if (cmd == "ambient") {
+                else if (cmd == "ambient") {
                     validinput = ReadVals(s, 3, values); // colors 
                     if (validinput) {
-                        ambient = glm::vec3(values[0], values[1], values[2]);
+                        Light::ambient = glm::vec3(values[0], values[1], values[2]);
+                    }
+                }
+                else if (cmd == "attenuation") {
+                    validinput = ReadVals(s, 3, values); // colors 
+                    if (validinput) {
+                        for (int i = 0; i < 3; i++)
+                            Light::attenuation[i] = values[i];
                     }
                 }
                 else if (cmd == "diffuse") {
