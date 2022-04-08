@@ -31,8 +31,20 @@ Camera::~Camera()
     delete[] pixels;
 }
 
+void Camera::TakeScreenshot() {
+    for (int i = 0; i < h/2; i++)
+    {
+        for (int j = 0; j < w/2; j++)
+        {
+            pixels[3 * (i * w + j)] = '\0';         // blue
+            pixels[3 * (i * w + j) + 1] = '\0';     // green
+            pixels[3 * (i * w + j) + 2] = '\255';   // red
+        }
+    }
+}
+
 void Camera::SaveScreenshot() {
-    FIBITMAP* img = FreeImage_ConvertFromRawBits(pixels, w, h, w * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
+    FIBITMAP* img = FreeImage_ConvertFromRawBits(pixels, w, h, w * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, true);
 
     std::cout << "Saving screenshot: " << outputFile << "\n";
 

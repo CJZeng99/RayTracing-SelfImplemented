@@ -29,7 +29,7 @@ private:
 
 	int maxVert;
 
-	std::string outputFile;
+	std::string outputFile = "output/raytrace.png";
 
 	std::vector<glm::vec3> vectices;
 	std::stack <glm::mat4> transfstack;

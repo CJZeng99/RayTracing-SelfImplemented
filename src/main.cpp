@@ -5,21 +5,23 @@
 #include <deque>
 #include <stack>
 #include "FreeImage.h"
+#include "Scene.h"
 
 using namespace std; 
 
 
 int main(int argc, char* argv[]) {
 
-  if (argc != 2) {
-    cerr << "Usage: transforms scenefile [grader input (optional)]\n"; 
-    exit(-1); 
-  }
+	if (argc != 2) {
+		cerr << "Usage: transforms scenefile [grader input (optional)]\n"; 
+		exit(-1); 
+	}	
 
-  FreeImage_Initialise();
+	FreeImage_Initialise();
 
-  //readfile(argv[1]); 
+	Scene scene1(argv[1]);
+	scene1.TakeScreenshots();
 
-  FreeImage_DeInitialise();
-  return 0;
+	FreeImage_DeInitialise();
+	return 0;
 }

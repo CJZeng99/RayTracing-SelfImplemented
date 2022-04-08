@@ -7,9 +7,9 @@ class Light
 {
 public:
 	LightType type;
-	static glm::vec3 ambient;
 	glm::vec3 color;
-	static float attenuation[3];
+	static glm::vec3 ambient;
+	static glm::vec3 attenuation;
 };
 
 class DirectionalLight : public Light

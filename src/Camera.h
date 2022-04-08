@@ -34,6 +34,7 @@ public:
 	std::string outputFile;
 	unsigned char* pixels;
 
+	void TakeScreenshot();
 	void SaveScreenshot();
 };
 #endif

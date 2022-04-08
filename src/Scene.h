@@ -17,6 +17,8 @@ public:
 	Camera* cam;
 	std::vector<Light*> lights;
 	std::vector<Object*> objects;
+	
+	void TakeScreenshots();
 };
 
 #endif

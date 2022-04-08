@@ -3,6 +3,8 @@
 SceneLoader::SceneLoader(Scene* scene)
     : scene(scene) {}
 
+SceneLoader::~SceneLoader() {}
+
 bool SceneLoader::ReadVals(std::stringstream& s, const int numvals, float* values)
 {
     for (int i = 0; i < numvals; i++) {
@@ -50,6 +52,7 @@ void SceneLoader::ReadFile(const char* filename)
                             glm::vec3 direction = glm::vec3(values[0], values[1], values[2]);
                             glm::vec3 color = glm::vec3(values[3], values[4], values[5]);
                             Light* light = (Light*) new DirectionalLight(direction, color);
+                            light->type = LightType::directional;
                             scene->lights.push_back(light);
                         }
                     }
@@ -65,6 +68,7 @@ void SceneLoader::ReadFile(const char* filename)
                             glm::vec3 position = glm::vec3(values[0], values[1], values[2]);
                             glm::vec3 color = glm::vec3(values[3], values[4], values[5]);
                             Light* light = (Light*) new PointLight(position, color);
+                            light->type = LightType::point;
                             scene->lights.push_back(light);
                         }
                     }
@@ -85,8 +89,7 @@ void SceneLoader::ReadFile(const char* filename)
                 else if (cmd == "attenuation") {
                     validinput = ReadVals(s, 3, values); // colors 
                     if (validinput) {
-                        for (int i = 0; i < 3; i++)
-                            Light::attenuation[i] = values[i];
+                        Light::attenuation = glm::vec3(values[0], values[1], values[2]);
                     }
                 }
                 else if (cmd == "diffuse") {
