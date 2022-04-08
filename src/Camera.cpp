@@ -11,13 +11,13 @@ Camera::Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& u
     float aspect = (float)w / (float)h;
     float pix = w * h;
 
-    this->up = glm::normalize(up);
-    down = -this->up;
     front = glm::normalize(center - eye);
     right = glm::normalize(glm::cross(front, up));
-    viewX = aspect;
-    viewY = 1.0f;
-    viewZ = glm::tan(glm::radians(90.0f - fovy/2.0f));
+    this->up = glm::normalize(glm::cross(right, front));
+    down = -this->up;
+    viewY = glm::tan(glm::radians(fovy / 2.0f));
+    viewX = aspect * viewY;
+    viewZ = 1.0f;
 
     // pixels initialization
     pixels = new unsigned char[3 * pix];

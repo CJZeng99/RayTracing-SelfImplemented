@@ -23,7 +23,7 @@ void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList)
 			// ray direction
 			glm::vec3 dir = cam->front * cam->viewZ +
 				cam->down * cam->viewY * yRatio+
-				cam->right * cam->viewX* xRatio;
+				cam->right * cam->viewX * xRatio;
 			dir = glm::normalize(dir);
 
 			//generating ray
