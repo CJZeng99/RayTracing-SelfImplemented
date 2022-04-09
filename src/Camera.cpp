@@ -56,6 +56,5 @@ void Camera::SaveScreenshot() {
     FIBITMAP* img = FreeImage_ConvertFromRawBits(pixels, w, h, w * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, true);
 
     std::cout << "Saving screenshot: " << outputFile << "\n";
-
-    FreeImage_Save(FIF_PNG, img, outputFile.c_str(), 0);
+    FreeImage_Save(FIF_PNG, img, (OUTPUT_DIR + outputFile).c_str(), 0);
 }
