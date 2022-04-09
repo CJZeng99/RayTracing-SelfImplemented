@@ -8,7 +8,6 @@ class Light
 public:
 	LightType type;
 	glm::vec3 color;
-	static glm::vec3 ambient;
 	static glm::vec3 attenuation;
 };
 

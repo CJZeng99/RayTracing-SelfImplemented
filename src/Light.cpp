@@ -1,6 +1,5 @@
 #include "Light.h"
 
-glm::vec3 Light::ambient = glm::vec3(0.2f, 0.2f, 0.2f);
 glm::vec3 Light::attenuation = glm::vec3(1.0f, 0.0f, 0.0f);
 
 ////////////////////////////////////////////////////////////////////////////////

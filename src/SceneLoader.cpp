@@ -82,7 +82,7 @@ void SceneLoader::ReadFile(const char* filename)
                 else if (cmd == "ambient") {
                     validinput = ReadVals(s, 3, values); // colors 
                     if (validinput) {
-                        Light::ambient = glm::vec3(values[0], values[1], values[2]);
+                        ambient = glm::vec3(values[0], values[1], values[2]);
                     }
                 }
                 else if (cmd == "attenuation") {
@@ -164,7 +164,7 @@ void SceneLoader::ReadFile(const char* filename)
                         std::cerr << "Reached Maximum Number of Objects " << scene->objects.size() << " Will ignore further objects\n";
                     }
                     else {
-                        validinput = ReadVals(s, 3, values);
+                        validinput = ReadVals(s, 4, values);
                         if (validinput) {
                             glm::vec3 center = glm::vec3(values[0], values[1], values[2]);
                             float radius = values[3];
@@ -172,11 +172,10 @@ void SceneLoader::ReadFile(const char* filename)
                             obj->geoType = GeoType::sphere;
 
                             // Set the object's light properties
-                            for (i = 0; i < 3; i++) {
-                                obj->diffuse  = diffuse;
-                                obj->specular = specular;
-                                obj->emission = emission;
-                            }
+                            obj->ambient = ambient;
+                            obj->diffuse = diffuse;
+                            obj->specular = specular;
+                            obj->emission = emission;
                             obj->shininess = shininess;
 
                             // Set the object's transform
@@ -198,11 +197,11 @@ void SceneLoader::ReadFile(const char* filename)
                         obj->geoType = GeoType::tri;
 
                         // Set the object's light properties
-                        for (i = 0; i < 3; i++) {
-                            obj->diffuse = diffuse;
-                            obj->specular = specular;
-                            obj->emission = emission;
-                        }
+                        obj->ambient = ambient;
+                        obj->diffuse = diffuse;
+                        obj->specular = specular;
+                        obj->emission = emission;
+                        obj->shininess = shininess;
                         obj->shininess = shininess;
 
                         // Set the object's transform

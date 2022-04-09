@@ -41,7 +41,8 @@ void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList)
 ////////////////////////////////////////////////////////////////////////////////
 glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList)
 {
-	float hit_min = INFINITY;
+	float currHitMin = INFINITY;
+	Object* currHit;
 	//loop through all objects
 	for (int i = 0; i < objList.size(); i++) {
 		Object* currObj = objList[i];
@@ -50,15 +51,16 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList)
 			//hittime < hit min
 			float currHitTime = ray->getHitTime();
 			//std::cerr << currHitTime << "\n";
-			if (currHitTime > 0 && currHitTime < hit_min) {
-				hit_min = currHitTime;//update hit time
+			if (currHitTime > 0 && currHitTime < currHitMin) {
+				currHitMin = currHitTime;//update hit time
+				currHit = currObj;
 			}
 		}
 	}
-	if (hit_min < INFINITY)
+	if (currHitMin < INFINITY)
 	{
 		//std::cerr << "Hit!\n";
-		return Light::ambient;
+		return currHit->ambient;
 	}
 	else
 		return glm::vec3(0.0f);
