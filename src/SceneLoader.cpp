@@ -231,7 +231,7 @@ void SceneLoader::ReadFile(const char* filename)
                 else if (cmd == "rotate") {
                     validinput = ReadVals(s, 4, values);
                     if (validinput) {
-                        transfstack.top() = transfstack.top() * glm::rotate(glm::mat4(1.0f), values[3], glm::vec3(values[0], values[1], values[2]));
+                        transfstack.top() = transfstack.top() * glm::rotate(glm::mat4(1.0f), glm::radians(values[3]), glm::vec3(values[0], values[1], values[2]));
                     }
                 }
 

@@ -18,7 +18,7 @@ bool Sphere::checkIntersect(Ray * ray)
 {
 	//caculating intersection formual
 	glm::vec3 P0 = glm::vec3(model_inverse * glm::vec4(ray->getOrigin(), 1.0f));
-	glm::vec3 P1 = glm::vec3(model_inverse * glm::vec4(ray->getDirection(), 0.0f));
+	glm::vec3 P1 = glm::normalize(glm::vec3(model_inverse * glm::vec4(ray->getDirection(), 0.0f)));
 	glm::vec3 C = this->center;
 	float r = this->radius;
 
@@ -30,7 +30,7 @@ bool Sphere::checkIntersect(Ray * ray)
 	float temp = glm::dot(diff, diff);
 	float c = temp - r * r;
 
-	float discriminant = b * b - 4 * a * c + EPSILON;
+	float discriminant = b * b - 4 * a * c;
 	//no intersection
 	if (discriminant < 0) {
 		return false;
@@ -38,13 +38,16 @@ bool Sphere::checkIntersect(Ray * ray)
 	//when there is intersection
 	float t1 = (-b + sqrt(discriminant)) / 2 * a;
 	float t2 = (-b - sqrt(discriminant)) / 2 * a;
-	
+	glm::vec3 contactPoint;
+
 	//decide return value
 	if(t2 > 0) {
-		ray->handleHit(t2);
+		contactPoint = glm::vec3(model * glm::vec4((P0 + P1 * t2), 1.0f));
+		ray->handleHit(contactPoint);
 	}
 	else if(t1 > 0){
-		ray->handleHit(t1);
+		contactPoint = glm::vec3(model * glm::vec4((P0 + P1 * t1), 1.0f));
+		ray->handleHit(contactPoint);
 	}
 	else {
 		return false;

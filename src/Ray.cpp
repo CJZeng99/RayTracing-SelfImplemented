@@ -30,7 +30,7 @@ void Ray::handleHit(glm::vec3 pos)
 	this->hasHit = true;
 	this->hitPoint = pos;
 	this->hitTime = glm::length(pos - this->origin) / glm::length(this->direction);
-	this->hitDistance = glm::length(pos - this->origin) / glm::length(this->direction);
+	this->hitDistance = glm::length(pos - this->origin);
 }
 ////////////////////////////////////////////////////////////////////////////////
 void Ray::setHitTime(float val)
