@@ -33,6 +33,7 @@ public:
 	glm::vec3 guessPos(float t);
 
 	void handleHit(float hitTime);
+	void handleHit(glm::vec3 pos);
 	void setHitTime(float val);
 	void setOrigin(glm::vec3 val);
 	void setDirection(glm::vec3 val);
