@@ -18,7 +18,7 @@ bool Sphere::checkIntersect(Ray * ray)
 {
 	//caculating intersection formual
 	glm::vec3 P0 = glm::vec3(model_inverse * glm::vec4(ray->getOrigin(), 1.0f));
-	glm::vec3 P1 = glm::vec3(model_transpose * glm::vec4(ray->getDirection(), 0.0f));
+	glm::vec3 P1 = glm::vec3(model_inverse * glm::vec4(ray->getDirection(), 0.0f));
 	glm::vec3 C = this->center;
 	float r = this->radius;
 

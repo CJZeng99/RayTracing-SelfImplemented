@@ -17,12 +17,16 @@ Triangle::~Triangle()
 ////////////////////////////////////////////////////////////////////////////////
 bool Triangle::checkIntersect(Ray * ray)
 {
+	glm::vec3 p1 = glm::vec3(model * glm::vec4(this->p1, 1.0f));
+	glm::vec3 p2 = glm::vec3(model * glm::vec4(this->p2, 1.0f));
+	glm::vec3 p3 = glm::vec3(model * glm::vec4(this->p3, 1.0f));
+
 	//check intersection inside triangle
 	glm::vec3 n = glm::cross(p2 - p1, p3 - p1);
 	n = glm::normalize(n);
 
-	glm::vec3 rayPos = glm::vec3(model_inverse * glm::vec4(ray->getOrigin(), 1.0f));
-	glm::vec3 rayDir = glm::vec3(model_transpose * glm::vec4(ray->getDirection(), 0.0f));
+	glm::vec3 rayPos = ray->getOrigin();
+	glm::vec3 rayDir = ray->getDirection();
 
 
 	//check if parallel
