@@ -21,12 +21,16 @@ bool Triangle::checkIntersect(Ray * ray)
 	glm::vec3 n = glm::cross(p2 - p1, p3 - p1);
 	n = glm::normalize(n);
 
+	glm::vec3 rayPos = glm::vec3(model_inverse * glm::vec4(ray->getOrigin(), 1.0f));
+	glm::vec3 rayDir = glm::vec3(model_transpose * glm::vec4(ray->getDirection(), 0.0f));
+
+
 	//check if parallel
-	if (glm::dot(n, ray->getDirection()) >= 0) {
+	if (glm::dot(n, rayDir) >= 0) {
 		return false;
 	}
-	//std::cerr << "DOT: " << glm::dot(ray->getDirection(), n) << "\n";
-	float t = (glm::dot(p1, n) - glm::dot(ray->getOrigin(), n)) / glm::dot(ray->getDirection(), n);
+	//std::cerr << "DOT: " << glm::dot(rayDir, n) << "\n";
+	float t = (glm::dot(p1, n) - glm::dot(rayPos, n)) / glm::dot(rayDir, n);
 	
 	//check if point inside 
 	glm::vec3 guess = ray->guessPos(t);

@@ -180,6 +180,8 @@ void SceneLoader::ReadFile(const char* filename)
 
                             // Set the object's transform
                             obj->model = transfstack.top();
+                            obj->model_inverse = glm::inverse(transfstack.top());
+                            obj->model_transpose = glm::transpose(transfstack.top());
 
                             scene->objects.push_back(obj);
                         }
@@ -206,6 +208,8 @@ void SceneLoader::ReadFile(const char* filename)
 
                         // Set the object's transform
                         obj->model = transfstack.top();
+                        obj->model_inverse = glm::inverse(transfstack.top());
+                        obj->model_transpose = glm::transpose(transfstack.top());
 
                         scene->objects.push_back(obj);
                     }
@@ -215,19 +219,19 @@ void SceneLoader::ReadFile(const char* filename)
                 else if (cmd == "translate") {
                     validinput = ReadVals(s, 3, values);
                     if (validinput) {
-                        transfstack.top() *= glm::translate(glm::mat4(), glm::vec3(values[0], values[1], values[2]));
+                        transfstack.top() = transfstack.top() * glm::translate(glm::mat4(1.0f), glm::vec3(values[0], values[1], values[2]));
                     }
                 }
                 else if (cmd == "scale") {
                     validinput = ReadVals(s, 3, values);
                     if (validinput) {
-                        transfstack.top() *= glm::scale(glm::mat4(), glm::vec3(values[0], values[1], values[2]));
+                        transfstack.top() = transfstack.top() * glm::scale(glm::mat4(1.0f), glm::vec3(values[0], values[1], values[2]));
                     }
                 }
                 else if (cmd == "rotate") {
                     validinput = ReadVals(s, 4, values);
                     if (validinput) {
-                        transfstack.top() *= glm::rotate(glm::mat4(), values[3], glm::vec3(values[0], values[1], values[2]));
+                        transfstack.top() = transfstack.top() * glm::rotate(glm::mat4(1.0f), values[3], glm::vec3(values[0], values[1], values[2]));
                     }
                 }
 

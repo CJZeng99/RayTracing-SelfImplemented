@@ -14,6 +14,8 @@ public:
 	virtual bool checkIntersect(Ray * ray) = 0;
 	GeoType geoType;
 	glm::mat4 model;
+	glm::mat4 model_inverse;
+	glm::mat4 model_transpose;
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
 	glm::vec3 specular;

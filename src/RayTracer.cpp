@@ -14,8 +14,11 @@ void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList)
 
 	//generating ray
 	for (int j = 0; j < height; j++) {
+		std::cerr << "\rRow Remaining: " << height - j << std::flush;
 		for (int i = 0; i < width; i++) {
-			
+			//int progress = (int)((j * width + i) / (width * height) * 100);
+			//std::cerr << "\rRayTracing Progress [" << std::string(progress, '#') << std::string(100-progress, ' ') << "]" << std::flush;
+
 			//calculating ratios
 			float xRatio = (i + 0.5 - halfwidth)/halfwidth;
 			float yRatio = (j + 0.5 - halfheight)/halfheight;
