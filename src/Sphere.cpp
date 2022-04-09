@@ -6,6 +6,11 @@ Sphere::Sphere(glm::vec3 center, float radius)
 	this->geoType = GeoType::sphere;
 	this->center = center;
 	this->radius = radius;
+
+	this->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	this->diffuse = glm::vec3(0.0f);
+	this->specular = glm::vec3(0.0f);
+	this->emission = glm::vec3(0.0f);
 }
 ////////////////////////////////////////////////////////////////////////////////
 Sphere::~Sphere()

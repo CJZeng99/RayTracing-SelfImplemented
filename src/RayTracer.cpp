@@ -63,7 +63,7 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList)
 	if (currHitMin < INFINITY)
 	{
 		//std::cerr << "Hit!\n";
-		return currHit->ambient;
+		return currHit->ambient + currHit->emission;
 	}
 	else
 		return glm::vec3(0.0f);
