@@ -33,7 +33,7 @@ Camera::~Camera()
 }
 
 void Camera::TakeScreenshot(const std::vector<Object*>& objList) {
-    Raytracer::tracer(this, objList);
+    //Raytracer::tracer(this, objList);
     //for (int i = 0; i < h/2; i++)
     //{
     //    for (int j = 1; j < w/2; j++)

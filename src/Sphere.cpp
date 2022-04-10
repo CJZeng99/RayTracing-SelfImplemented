@@ -59,7 +59,7 @@ bool Sphere::checkIntersect(Ray * ray)
 	}
 
 	//seting ray hit normal
-	ray->setHitNormal(glm::normalize(ray->getHitPoint() - this->center));
+	ray->setHitNormal(glm::normalize(ray->getHitPoint() - glm::vec3(model * glm::vec4((this->center), 1.0f))));
 	return true;
 	
 }

@@ -6,16 +6,14 @@
 #include "Object.h"
 #include "Light.h"
 #include "Ray.h"
-
-#include <format>
 ////////////////////////////////////////////////////////////////////////////////
 class Camera;
 class Raytracer
 {
 public:
 	static int depth;
-	static void tracer(Camera* cam, const std::vector<Object*>& objList);
-	static glm::vec3 getColor(Ray* ray, const std::vector<Object*>& objList);
+	static void tracer(Camera* cam, const std::vector<Object*>& objList, const std::vector<Light*>& lightList);
+	static glm::vec3 getColor(Ray* ray, const std::vector<Object*>& objList, const std::vector<Light*>& lightList);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

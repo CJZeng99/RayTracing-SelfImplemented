@@ -18,7 +18,6 @@ Scene::~Scene()
 
 void Scene::TakeScreenshots()
 {
-
-	cam->TakeScreenshot(objects);
+	Raytracer::tracer(cam, objects, lights);
 	cam->SaveScreenshot();
 }

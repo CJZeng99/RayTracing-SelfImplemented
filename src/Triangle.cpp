@@ -51,6 +51,7 @@ bool Triangle::checkIntersect(Ray * ray)
 
 	//handle hit time 
 	ray->handleHit(t);
+	ray->setHitNormal(n);
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////

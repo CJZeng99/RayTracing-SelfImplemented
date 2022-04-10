@@ -12,6 +12,8 @@
 #define EPSILON 1e-6
 #define MAX_LIGHTS 10
 #define MAX_OBJECTS 100
+
+#define INTERSECT_EPSILON 1e-1
 //#define INFINITY FLT_MAX
 
 #endif
