@@ -75,8 +75,11 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 				Ray shadowRay(ray->getHitPoint() + ray->getHitNormal() * glm::vec3(INTERSECT_EPSILON), L);
 				for (auto obj : objList)
 				{
-					if(obj->checkIntersect(&shadowRay))
-						return glm::vec3(0.2f);
+					if (obj->checkIntersect(&shadowRay))
+					{
+						if(shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < INFINITY)
+							return glm::vec3(0.2f);
+					}
 				}
 
 				float r = glm::length(L);
@@ -93,7 +96,10 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 				for (auto obj : objList)
 				{
 					if (obj->checkIntersect(&shadowRay))
-						return glm::vec3(0.0f);
+					{
+						if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < INFINITY)
+							return glm::vec3(0.2f);
+					}
 				}
 				glm::vec3 diffuse_reflectance = currHit->diffuse * std::max(glm::dot(ray->getHitNormal(), -normalize(directional->direction)), 0.0f);
 				color += light->color * diffuse_reflectance;
