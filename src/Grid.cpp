@@ -1,6 +1,14 @@
 #include "Grid.h"
 
-bool Grid::checkIntersect(Ray* ray, bool checkShadow = true)
+float Grid::side = 0.5f;
+
+Grid::Grid(const glm::vec3& min)
+{
+	this->min = min;
+	this->max = min + side;
+}
+
+bool Grid::checkIntersect(Ray* ray, bool checkShadow)
 {
 	//ray property
 	float Ox = ray->getOrigin().x;

@@ -213,6 +213,8 @@ void SceneLoader::ReadFile(const char* filename)
                         obj->model = transfstack.top();
                         obj->model_inverse = glm::inverse(transfstack.top());
                         obj->model_transpose = glm::transpose(transfstack.top());
+                        Triangle* triangle = (Triangle*)obj;
+                        triangle->computeMinMax();
 
                         scene->objects.push_back(obj);
                     }

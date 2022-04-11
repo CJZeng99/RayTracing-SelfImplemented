@@ -17,6 +17,8 @@ public:
 	~Triangle();
 
 	bool checkIntersect(Ray* ray, bool checkShadow = false);
+	void computeMinMax();
+
 
 };
 

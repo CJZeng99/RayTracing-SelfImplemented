@@ -3,6 +3,7 @@
 
 class Grid : public Object
 {
+public:
 	static float side;
 	std::vector<Object*> children;
 

@@ -17,9 +17,10 @@ public:
 
 	Camera* cam;
 	std::vector<Light*> lights;
-	std::vector<Grid*> grid;
+	std::vector<Object*> grids;
 	std::vector<Object*> objects;
 	
+	void InitGrid();
 	void TakeScreenshots();
 };
 
