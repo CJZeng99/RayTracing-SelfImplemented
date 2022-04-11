@@ -7,6 +7,9 @@ Sphere::Sphere(glm::vec3 center, float radius)
 	this->center = center;
 	this->radius = radius;
 
+	this->min = center - radius * scale;
+	this->max = center + radius * scale;
+
 	this->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
 	this->diffuse = glm::vec3(0.0f);
 	this->specular = glm::vec3(0.0f);
