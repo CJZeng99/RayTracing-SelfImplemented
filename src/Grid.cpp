@@ -1,6 +1,6 @@
 #include "Grid.h"
 
-bool Grid::checkIntersect(Ray* ray, bool checkShadow = true)
+bool Grid::checkIntersect(Ray* ray, bool checkShadow)
 {
 	//ray property
 	float Ox = ray->getOrigin().x;
