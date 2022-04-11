@@ -94,7 +94,9 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 				float attenFactor = glm::dot(Light::attenuation, r_vec);
 
 				glm::vec3 diffuse_reflectance = currHit->diffuse * std::max(glm::dot(currHitNormal, L), 0.0f);
-				color += light->color * diffuse_reflectance / attenFactor;
+				glm::vec3 H = glm::normalize(L - ray->getDirection());
+				glm::vec3 specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
+				color += light->color * (diffuse_reflectance + specular_reflectance) / attenFactor;
 			}
 			else if (light->type == LightType::directional)
 			{
