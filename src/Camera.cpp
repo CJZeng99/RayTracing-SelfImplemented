@@ -5,8 +5,8 @@ int Camera::h;
 float Camera::zNear = 0.1f;
 float Camera::zFar = 99.0f;
 
-Camera::Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up, const float fovy, const std::string outputFile)
-    : eye(eye), center(center), fovy(fovy), outputFile(outputFile)
+Camera::Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up, const float fovy)
+    : eye(eye), center(center), fovy(fovy)
 {
     float aspect = (float)w / (float)h;
     float pix = w * h;
@@ -57,4 +57,8 @@ void Camera::SaveScreenshot() {
 
     std::cout << "Saving screenshot: " << outputFile << "\n";
     FreeImage_Save(FIF_PNG, img, (OUTPUT_DIR + outputFile).c_str(), 0);
+}
+
+void Camera::SetOutputFile(const std::string outputFile) {
+    this->outputFile = outputFile;
 }

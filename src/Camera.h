@@ -15,7 +15,7 @@
 class Camera
 {
 public:
-	Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up, float fovy, std::string outputFile);
+	Camera(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up, float fovy);
 	~Camera();
 
 	static int w, h;
@@ -40,6 +40,7 @@ public:
 
 	void TakeScreenshot(const std::vector<Object*>& objList);
 	void SaveScreenshot();
+	void SetOutputFile(const std::string outputFile);
 };
 #endif
 

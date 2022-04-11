@@ -96,7 +96,7 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 					}
 
 					if (!visible)
-						break;
+						continue;
 
 					float r = glm::length(point->position - hitPoint);
 					glm::vec3 r_vec = glm::vec3(1.0f, r, r * r);
@@ -115,22 +115,27 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 				}
 				else if (light->type == LightType::directional)
 				{
+					bool visible = true;
 					DirectionalLight* directional = (DirectionalLight*)light;
-					Ray shadowRay(hitPoint, directional->direction);
+					Ray shadowRay(hitPoint, -directional->direction);
 					for (auto obj : objList)
 					{
-						if (obj->checkIntersect(&shadowRay))
+						if (obj->checkIntersect(&shadowRay, true))
 						{
-							if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < INFINITY)
-								return color;
+							if (shadowRay.getHitTime() > EPSILON && shadowRay.getHitTime() < INFINITY)
+								visible = false;
 						}
 					}
+
+					if (!visible)
+						continue;
+
 					if (glm::length(currHit->diffuse) > EPSILON)
-						diffuse_reflectance = currHit->diffuse * std::max(glm::dot(ray->getHitNormal(), -normalize(directional->direction)), 0.0f);
+						diffuse_reflectance = currHit->diffuse * std::max(glm::dot(currHitNormal, -directional->direction), 0.0f);
 
 					if (glm::length(currHit->specular) > EPSILON)
 					{
-						glm::vec3 H = glm::normalize(-normalize(directional->direction) - ray->getDirection());
+						glm::vec3 H = glm::normalize(- directional->direction - ray->getDirection());
 						specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
 					}
 

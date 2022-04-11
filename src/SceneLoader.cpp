@@ -49,7 +49,7 @@ void SceneLoader::ReadFile(const char* filename)
                     else {
                         validinput = ReadVals(s, 6, values); // Position/color for lts.
                         if (validinput) {
-                            glm::vec3 direction = glm::vec3(values[0], values[1], values[2]);
+                            glm::vec3 direction = -glm::vec3(values[0], values[1], values[2]);
                             glm::vec3 color = glm::vec3(values[3], values[4], values[5]);
                             Light* light = (Light*) new DirectionalLight(direction, color);
                             light->type = LightType::directional;
@@ -145,7 +145,7 @@ void SceneLoader::ReadFile(const char* filename)
                         glm::vec3 center = glm::vec3(values[3], values[4], values[5]);
                         glm::vec3 up = glm::vec3(values[6], values[7], values[8]);
                         float fovy = values[9];
-                        scene->cam = new Camera(eye, center, up, fovy, outputFile);
+                        scene->cam = new Camera(eye, center, up, fovy);
                     }
                 }
 
@@ -254,6 +254,7 @@ void SceneLoader::ReadFile(const char* filename)
             }
             getline(in, str);
         }
+        scene->cam->SetOutputFile(outputFile);
     }
     else {
         std::cerr << "Unable to Open Input Data File " << filename << "\n";

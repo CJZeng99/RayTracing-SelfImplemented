@@ -6,6 +6,8 @@
 #include "Object.h"
 #include "Light.h"
 #include "Ray.h"
+#include <ppl.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 class Camera;
 class Raytracer
