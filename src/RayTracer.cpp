@@ -82,6 +82,7 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 				// compute diffuse and specular
 				if (light->type == LightType::point)
 				{
+					bool visible = true;
 					PointLight* point = (PointLight*)light;
 					glm::vec3 L = glm::normalize(point->position - hitPoint);
 					Ray shadowRay(hitPoint, L);
@@ -90,9 +91,12 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 						if (obj->checkIntersect(&shadowRay, true))
 						{
 							if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < glm::length(point->position - hitPoint))
-								return color;
+								visible = false;
 						}
 					}
+
+					if (!visible)
+						break;
 
 					float r = glm::length(point->position - hitPoint);
 					glm::vec3 r_vec = glm::vec3(1.0f, r, r * r);
