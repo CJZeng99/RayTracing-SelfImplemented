@@ -24,7 +24,7 @@ public:
 	glm::vec3 emission;
 	float shininess;
 
-	static bool boxIntersect(Object* grid, Object* obj);
+	static bool boxIntersect(Object* obj1, Object* obj2);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
