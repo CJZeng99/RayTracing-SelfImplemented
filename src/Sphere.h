@@ -12,6 +12,7 @@ private:
 	float radius;
 
 public:
+	float scale;
 
 	Sphere(glm::vec3 center, float radius);
 	~Sphere();

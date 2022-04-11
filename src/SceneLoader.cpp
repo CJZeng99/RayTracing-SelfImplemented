@@ -171,6 +171,9 @@ void SceneLoader::ReadFile(const char* filename)
                             Object* obj = (Object*) new Sphere(center, radius);
                             obj->geoType = GeoType::sphere;
 
+                            Sphere* sph = (Sphere*)obj;
+                            sph->scale = maxScale;
+
                             // Set the object's light properties
                             obj->ambient = ambient;
                             obj->diffuse = diffuse;
@@ -225,6 +228,7 @@ void SceneLoader::ReadFile(const char* filename)
                 else if (cmd == "scale") {
                     validinput = ReadVals(s, 3, values);
                     if (validinput) {
+                        maxScale = std::max({ values[0], values[1], values[2] });
                         transfstack.top() = transfstack.top() * glm::scale(glm::mat4(1.0f), glm::vec3(values[0], values[1], values[2]));
                     }
                 }

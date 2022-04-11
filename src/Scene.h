@@ -6,6 +6,7 @@
 #include "Light.h"
 #include "Object.h"
 #include "SceneLoader.h"
+#include "Grid.h"
 #include <vector>
 
 class Scene
@@ -16,6 +17,7 @@ public:
 
 	Camera* cam;
 	std::vector<Light*> lights;
+	std::vector<Grid*> grid;
 	std::vector<Object*> objects;
 	
 	void TakeScreenshots();

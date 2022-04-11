@@ -28,6 +28,7 @@ private:
 	Scene* scene;
 
 	int maxVert;
+	float maxScale;
 
 	std::string outputFile = "output/raytrace.png";
 
