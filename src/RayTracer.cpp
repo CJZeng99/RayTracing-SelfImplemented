@@ -13,6 +13,9 @@ void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList, const 
 	float halfheight = height / 2;
 
 	//generating ray
+	//for (int j = height / 4 - 1; j < height / 4; j++) {
+	//	std::cerr << "\rRow Remaining: " << height - j << std::flush;
+	//	for (int i = width / 4 - 1; i < width / 4; i++) {
 	for (int j = 0; j < height; j++) {
 		std::cerr << "\rRow Remaining: " << height - j << std::flush;
 		for (int i = 0; i < width; i++) {
@@ -45,6 +48,8 @@ void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList, const 
 glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, const std::vector<Light*>& lightList)
 {
 	float currHitMin = INFINITY;
+	glm::vec3 currHitPoint;
+	glm::vec3 currHitNormal;
 	Object* currHit;
 	//loop through all objects
 	for (int i = 0; i < objList.size(); i++) {
@@ -57,6 +62,8 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 			if (currHitTime > 0 && currHitTime < currHitMin) {
 				currHitMin = currHitTime;//update hit time
 				currHit = currObj;
+				currHitPoint = ray->getHitPoint();
+				currHitNormal = ray->getHitNormal();
 			}
 		}
 	}
@@ -64,41 +71,41 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 	{
 		//std::cerr << "Hit!\n";
 		glm::vec3 color = currHit->ambient + currHit->emission;
+		glm::vec3 hitPoint = currHitPoint + currHitNormal * glm::vec3(INTERSECT_EPSILON);
 		for (auto light : lightList)
 		{
-			// compute diffuse
+			// compute diffuse and specular
 			if (light->type == LightType::point)
 			{
 				PointLight* point = (PointLight*)light;
-				glm::vec3 hitPoint = ray->getHitPoint() + ray->getHitNormal() * glm::vec3(INTERSECT_EPSILON);
 				glm::vec3 L = glm::normalize(point->position - hitPoint);
-				Ray shadowRay(ray->getHitPoint() + ray->getHitNormal() * glm::vec3(INTERSECT_EPSILON), L);
+				Ray shadowRay(hitPoint, L);
 				for (auto obj : objList)
 				{
-					if (obj->checkIntersect(&shadowRay))
+					if (obj->checkIntersect(&shadowRay, true))
 					{
-						if(shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < INFINITY)
-							return glm::vec3(0.2f);
+						if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < glm::length(point->position - hitPoint))
+							return color;
 					}
 				}
 
-				float r = glm::length(L);
+				float r = glm::length(point->position - hitPoint);
 				glm::vec3 r_vec = glm::vec3(1.0f, r, r * r);
 				float attenFactor = glm::dot(Light::attenuation, r_vec);
 
-				glm::vec3 diffuse_reflectance = currHit->diffuse * std::max(glm::dot(ray->getHitNormal(), L), 0.0f);
+				glm::vec3 diffuse_reflectance = currHit->diffuse * std::max(glm::dot(currHitNormal, L), 0.0f);
 				color += light->color * diffuse_reflectance / attenFactor;
 			}
 			else if (light->type == LightType::directional)
 			{
 				DirectionalLight* directional = (DirectionalLight*)light;
-				Ray shadowRay(ray->getHitPoint() + glm::vec3(INTERSECT_EPSILON), normalize(directional->direction));
+				Ray shadowRay(hitPoint, directional->direction);
 				for (auto obj : objList)
 				{
 					if (obj->checkIntersect(&shadowRay))
 					{
 						if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < INFINITY)
-							return glm::vec3(0.2f);
+							return color;
 					}
 				}
 				glm::vec3 diffuse_reflectance = currHit->diffuse * std::max(glm::dot(ray->getHitNormal(), -normalize(directional->direction)), 0.0f);

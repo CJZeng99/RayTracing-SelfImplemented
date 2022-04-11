@@ -5,7 +5,7 @@ glm::vec3 Light::attenuation = glm::vec3(1.0f, 0.0f, 0.0f);
 ////////////////////////////////////////////////////////////////////////////////
 DirectionalLight::DirectionalLight(const glm::vec3& direction, const glm::vec3& color)
 {
-	this->direction = direction;
+	this->direction = glm::normalize(direction);
 	this->color = color;
 }
 ////////////////////////////////////////////////////////////////////////////////

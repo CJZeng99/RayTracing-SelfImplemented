@@ -20,7 +20,7 @@ Triangle::~Triangle()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-bool Triangle::checkIntersect(Ray * ray)
+bool Triangle::checkIntersect(Ray * ray, bool checkShadow)
 {
 	glm::vec3 p1 = glm::vec3(model * glm::vec4(this->p1, 1.0f));
 	glm::vec3 p2 = glm::vec3(model * glm::vec4(this->p2, 1.0f));
@@ -35,7 +35,7 @@ bool Triangle::checkIntersect(Ray * ray)
 
 
 	//check if parallel
-	if (glm::dot(n, rayDir) >= 0) {
+	if (glm::dot(n, rayDir) > -EPSILON && !checkShadow) {
 		return false;
 	}
 	//std::cerr << "DOT: " << glm::dot(rayDir, n) << "\n";

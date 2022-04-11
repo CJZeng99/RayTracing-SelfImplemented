@@ -19,7 +19,7 @@ Sphere::~Sphere()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-bool Sphere::checkIntersect(Ray * ray) 
+bool Sphere::checkIntersect(Ray* ray, bool checkShadow)
 {
 	//caculating intersection formual
 	glm::vec3 P0 = glm::vec3(model_inverse * glm::vec4(ray->getOrigin(), 1.0f));
@@ -49,17 +49,19 @@ bool Sphere::checkIntersect(Ray * ray)
 	if(t2 > 0) {
 		contactPoint = glm::vec3(model * glm::vec4((P0 + P1 * t2), 1.0f));
 		ray->handleHit(contactPoint);
+		ray->setHitNormal(glm::normalize(glm::vec3(glm::transpose(model_inverse) * glm::vec4((P0 + P1 * t2 - this->center), 0.0f))));
 	}
 	else if(t1 > 0){
 		contactPoint = glm::vec3(model * glm::vec4((P0 + P1 * t1), 1.0f));
 		ray->handleHit(contactPoint);
+		ray->setHitNormal(glm::normalize(glm::vec3(glm::transpose(model_inverse) * glm::vec4((P0 + P1 * t1 - this->center), 0.0f))));
 	}
 	else {
 		return false;
 	}
 
 	//seting ray hit normal
-	ray->setHitNormal(glm::normalize(ray->getHitPoint() - glm::vec3(model * glm::vec4((this->center), 1.0f))));
+	
 	return true;
 	
 }

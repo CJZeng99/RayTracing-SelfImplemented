@@ -11,7 +11,7 @@ class Object
 {
 
 public:
-	virtual bool checkIntersect(Ray * ray) = 0;
+	virtual bool checkIntersect(Ray* ray, bool checkShadow = false) = 0;
 	GeoType geoType;
 	glm::mat4 model;
 	glm::mat4 model_inverse;

@@ -16,7 +16,7 @@ public:
 	Sphere(glm::vec3 center, float radius);
 	~Sphere();
 
-	bool checkIntersect(Ray * ray);
+	bool checkIntersect(Ray* ray, bool checkShadow = false);
 	glm::vec3 getCenter();
 	glm::vec3 getRadius();
 
