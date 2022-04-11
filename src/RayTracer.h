@@ -13,7 +13,7 @@ class Raytracer
 public:
 	static int depth;
 	static void tracer(Camera* cam, const std::vector<Object*>& objList, const std::vector<Light*>& lightList);
-	static glm::vec3 getColor(Ray* ray, const std::vector<Object*>& objList, const std::vector<Light*>& lightList);
+	static glm::vec3 getColor(Ray* ray, const std::vector<Object*>& objList, const std::vector<Light*>& lightList, int currDepth);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

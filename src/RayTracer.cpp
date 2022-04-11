@@ -1,7 +1,7 @@
 #pragma once
 #include "Raytracer.h"
 
-int Raytracer::depth;
+int Raytracer::depth = 5;
 
 ////////////////////////////////////////////////////////////////////////////////
 void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList, const std::vector<Light*>& lightList)
@@ -35,7 +35,7 @@ void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList, const 
 			//generating ray
 			Ray currRay(cam->eye, dir);
 			//get color 
-			glm::vec3 pixelColor = getColor(&currRay, objList, lightList);
+			glm::vec3 pixelColor = getColor(&currRay, objList, lightList, 0);
 			//std::cerr << pixelColor.x << " , " << pixelColor.y << " , " << pixelColor.z << "\n";
 			cam->pixels[3 * (j * width + i)] = unsigned char((int)(pixelColor.z * 255));
 			cam->pixels[3 * (j * width + i) + 1] = unsigned char((int)(pixelColor.y * 255));
@@ -45,7 +45,7 @@ void Raytracer::tracer(Camera* cam, const std::vector<Object *>& objList, const 
 
 }
 ////////////////////////////////////////////////////////////////////////////////
-glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, const std::vector<Light*>& lightList)
+glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, const std::vector<Light*>& lightList, int currDepth)
 {
 	float currHitMin = INFINITY;
 	glm::vec3 currHitPoint;
@@ -104,7 +104,7 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 					if (glm::length(currHit->specular) > EPSILON)
 					{
 						glm::vec3 H = glm::normalize(L - ray->getDirection());
-						glm::vec3 specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
+						specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
 					}
 
 					color += light->color * (diffuse_reflectance + specular_reflectance) / attenFactor;
@@ -127,11 +127,19 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 					if (glm::length(currHit->specular) > EPSILON)
 					{
 						glm::vec3 H = glm::normalize(-normalize(directional->direction) - ray->getDirection());
-						glm::vec3 specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
+						specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
 					}
 
 					color += light->color * (diffuse_reflectance + specular_reflectance);
 				}
+			}
+
+			if (glm::length(currHit->specular) > EPSILON && currDepth < depth)
+			{
+				currDepth++;
+				glm::vec3 d = ray->getDirection();
+				Ray traceRay(hitPoint, d - 2 * glm::dot(d, currHitNormal) * currHitNormal);
+				color += currHit->specular * getColor(&traceRay, objList, lightList, currDepth);
 			}
 		}
 		return color;
