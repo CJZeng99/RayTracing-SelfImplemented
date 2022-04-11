@@ -71,47 +71,67 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 	{
 		//std::cerr << "Hit!\n";
 		glm::vec3 color = currHit->ambient + currHit->emission;
+		glm::vec3 diffuse_reflectance = glm::vec3(0.0f);
+		glm::vec3 specular_reflectance = glm::vec3(0.0f);
 		glm::vec3 hitPoint = currHitPoint + currHitNormal * glm::vec3(INTERSECT_EPSILON);
-		for (auto light : lightList)
+
+		if (glm::length(currHit->diffuse) > EPSILON || glm::length(currHit->specular) > EPSILON)
 		{
-			// compute diffuse and specular
-			if (light->type == LightType::point)
+			for (auto light : lightList)
 			{
-				PointLight* point = (PointLight*)light;
-				glm::vec3 L = glm::normalize(point->position - hitPoint);
-				Ray shadowRay(hitPoint, L);
-				for (auto obj : objList)
+				// compute diffuse and specular
+				if (light->type == LightType::point)
 				{
-					if (obj->checkIntersect(&shadowRay, true))
+					PointLight* point = (PointLight*)light;
+					glm::vec3 L = glm::normalize(point->position - hitPoint);
+					Ray shadowRay(hitPoint, L);
+					for (auto obj : objList)
 					{
-						if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < glm::length(point->position - hitPoint))
-							return color;
+						if (obj->checkIntersect(&shadowRay, true))
+						{
+							if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < glm::length(point->position - hitPoint))
+								return color;
+						}
 					}
+
+					float r = glm::length(point->position - hitPoint);
+					glm::vec3 r_vec = glm::vec3(1.0f, r, r * r);
+					float attenFactor = glm::dot(Light::attenuation, r_vec);
+
+					if (glm::length(currHit->diffuse) > EPSILON)
+						diffuse_reflectance = currHit->diffuse * std::max(glm::dot(currHitNormal, L), 0.0f);
+
+					if (glm::length(currHit->specular) > EPSILON)
+					{
+						glm::vec3 H = glm::normalize(L - ray->getDirection());
+						glm::vec3 specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
+					}
+
+					color += light->color * (diffuse_reflectance + specular_reflectance) / attenFactor;
 				}
-
-				float r = glm::length(point->position - hitPoint);
-				glm::vec3 r_vec = glm::vec3(1.0f, r, r * r);
-				float attenFactor = glm::dot(Light::attenuation, r_vec);
-
-				glm::vec3 diffuse_reflectance = currHit->diffuse * std::max(glm::dot(currHitNormal, L), 0.0f);
-				glm::vec3 H = glm::normalize(L - ray->getDirection());
-				glm::vec3 specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
-				color += light->color * (diffuse_reflectance + specular_reflectance) / attenFactor;
-			}
-			else if (light->type == LightType::directional)
-			{
-				DirectionalLight* directional = (DirectionalLight*)light;
-				Ray shadowRay(hitPoint, directional->direction);
-				for (auto obj : objList)
+				else if (light->type == LightType::directional)
 				{
-					if (obj->checkIntersect(&shadowRay))
+					DirectionalLight* directional = (DirectionalLight*)light;
+					Ray shadowRay(hitPoint, directional->direction);
+					for (auto obj : objList)
 					{
-						if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < INFINITY)
-							return color;
+						if (obj->checkIntersect(&shadowRay))
+						{
+							if (shadowRay.getHitTime() > 0 && shadowRay.getHitTime() < INFINITY)
+								return color;
+						}
 					}
+					if (glm::length(currHit->diffuse) > EPSILON)
+						diffuse_reflectance = currHit->diffuse * std::max(glm::dot(ray->getHitNormal(), -normalize(directional->direction)), 0.0f);
+
+					if (glm::length(currHit->specular) > EPSILON)
+					{
+						glm::vec3 H = glm::normalize(-normalize(directional->direction) - ray->getDirection());
+						glm::vec3 specular_reflectance = currHit->specular * std::pow(std::max(glm::dot(currHitNormal, H), 0.0f), currHit->shininess);
+					}
+
+					color += light->color * (diffuse_reflectance + specular_reflectance);
 				}
-				glm::vec3 diffuse_reflectance = currHit->diffuse * std::max(glm::dot(ray->getHitNormal(), -normalize(directional->direction)), 0.0f);
-				color += light->color * diffuse_reflectance;
 			}
 		}
 		return color;
