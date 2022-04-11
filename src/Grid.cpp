@@ -49,6 +49,18 @@ bool Grid::checkIntersect(Ray* ray, bool checkShadow)
 	if ((tXMin > tZMin) || (tZMin > tXMax)) {
 		return false;
 	}
+	float currHitMin = INFINITY;
+	for (auto child : this->children) {
+		if (child->checkIntersect(ray)) {
+			//hittime < hit min
+			float currHitTime = ray->getHitTime();
+			//std::cerr << currHitTime << "\n";
+			if (currHitTime > 0 && currHitTime < currHitMin) {
+				currHitMin = currHitTime;//update hit time
 
+			}
+		}
+	}
+	ray->handleHit(currHitMin);
 	return true;
 }
