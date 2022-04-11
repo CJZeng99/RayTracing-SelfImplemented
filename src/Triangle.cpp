@@ -12,12 +12,12 @@ Triangle::Triangle(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3)
 	p2 = glm::vec3(model * glm::vec4(this->p2, 1.0f));
 	p3 = glm::vec3(model * glm::vec4(this->p3, 1.0f));
 
-	this->min.x = std::min({ p1.x, p2.x, p3.x });
-	this->min.y = std::min({ p1.y, p2.y, p3.y });
-	this->min.z = std::min({ p1.z, p2.z, p3.z });
-	this->max.x = std::max({ p1.x, p2.x, p3.x });
-	this->max.y = std::max({ p1.y, p2.y, p3.y });
-	this->max.z = std::max({ p1.z, p2.z, p3.z });
+	this->min.x = std::min(std::min(p1.x, p2.x), p3.x);
+	this->min.y = std::min(std::min(p1.y, p2.y), p3.y);
+	this->min.z = std::min(std::min(p1.z, p2.z), p3.z);
+	this->max.x = std::max(std::max(p1.x, p2.x), p3.x);
+	this->max.y = std::max(std::max(p1.y, p2.y), p3.y);
+	this->max.z = std::max(std::max(p1.z, p2.z), p3.z);
 
 	this->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
 	this->diffuse = glm::vec3(0.0f);

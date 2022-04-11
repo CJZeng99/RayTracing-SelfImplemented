@@ -24,7 +24,11 @@ public:
 	glm::vec3 emission;
 	float shininess;
 
-	static bool boxIntersect(Object* obj1, Object* obj2);
+	static bool boxIntersect(Object* obj1, Object* obj2) {
+		return (obj1->min.x <= obj2->max.x && obj1->max.x >= obj2->min.x) &&
+			(obj1->min.y <= obj2->max.y && obj1->max.y >= obj2->min.y) &&
+			(obj1->min.z <= obj2->max.z && obj1->max.z >= obj2->min.z);
+	}
 };
 
 ////////////////////////////////////////////////////////////////////////////////
