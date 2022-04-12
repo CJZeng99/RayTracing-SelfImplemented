@@ -56,14 +56,27 @@ glm::vec3 Raytracer::getColor(Ray* ray, const std::vector<Object*>& objList, con
 		Object* currObj = objList[i];
 		//when intersect with object
 		if (currObj->checkIntersect(ray)) {
-			//hittime < hit min
-			float currHitTime = ray->getHitTime();
-			//std::cerr << currHitTime << "\n";
-			if (currHitTime > 0 && currHitTime < currHitMin) {
-				currHitMin = currHitTime;//update hit time
-				currHit = currObj;
-				currHitPoint = ray->getHitPoint();
-				currHitNormal = ray->getHitNormal();
+			if (currObj->geoType == GeoType::grid)
+			{
+				float currHitTime = ray->getHitTime();
+				//std::cerr << currHitTime << "\n";
+				if (currHitTime > 0 && currHitTime < currHitMin) {
+					currHitMin = currHitTime;//update hit time
+					currHit = currObj;
+					currHitPoint = ray->getHitPoint();
+					currHitNormal = ray->getHitNormal();
+				}
+			}
+			else
+			{
+				float currHitTime = ray->getHitTime();
+				//std::cerr << currHitTime << "\n";
+				if (currHitTime > 0 && currHitTime < currHitMin) {
+					currHitMin = currHitTime;//update hit time
+					currHit = currObj;
+					currHitPoint = ray->getHitPoint();
+					currHitNormal = ray->getHitNormal();
+				}
 			}
 		}
 	}
