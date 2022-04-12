@@ -42,6 +42,7 @@ void Scene::InitGrid()
 			{
 				glm::vec3 thisMin = gmin + Grid::side * glm::vec3(xIdx, yIdx, zIdx);
 				Grid* g = new Grid(thisMin);
+				g->geoType = GeoType::grid;
 				for (auto obj : objects)
 				{
 					if (Object::boxIntersect(g, obj))

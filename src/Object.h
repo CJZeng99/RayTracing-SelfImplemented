@@ -6,7 +6,7 @@
 #include "Ray.h"
 ////////////////////////////////////////////////////////////////////////////////
 
-enum class GeoType {sphere, tri};
+enum class GeoType {sphere, tri, grid};
 class Object
 {
 

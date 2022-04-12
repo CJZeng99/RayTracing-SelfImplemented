@@ -10,65 +10,38 @@ Grid::Grid(const glm::vec3& min)
 
 bool Grid::checkIntersect(Ray* ray, bool checkShadow)
 {
-	//ray property
-	float Ox = ray->getOrigin().x;
-	float Oy = ray->getOrigin().y;
-	float Oz = ray->getOrigin().z;
-	float Dx = ray->getDirection().x;
-	float Dy = ray->getDirection().y;
-	float Dz = ray->getDirection().z;
-	
-	//box property
-	float minX = min.x;
-	float minY = min.y;
-	float minZ = min.z;
-	float maxX = max.x;
-	float maxY = max.y;
-	float maxZ = max.z;
+	glm::vec3 origin = ray->getOrigin();
+	glm::vec3 direction = ray->getDirection();
 
-	float tXMin = (minX - Ox) / Dx;
-	float tXMax = (maxX - Ox) / Dx;
-	if (tXMin > tXMax) {
-		std::swap(tXMin, tXMax);
+	float t_x_min = (min.x - origin.x) / direction.x;
+	float t_x_max = (max.x - origin.x) / direction.x;
+	if (t_x_min > t_x_max) {
+		return false;
 	}
 
-	float tYMin = (minY - Oy) / Dy;
-	float tYMax = (maxY - Oy) / Dy;
-	if (tYMin > tYMax) {
-		std::swap(tYMin, tYMax);
+	float t_y_min = (min.y - origin.y) / direction.y;
+	float t_y_max = (max.y - origin.y) / direction.y;
+	if (t_y_min > t_y_max) {
+		return false;
 	}
 
-	if ((tXMin > tYMax) || (tYMin > tXMax)) {
+	if ((t_x_min > t_y_max) || (t_y_min > t_x_max)) {
 		return false;
 	}
 		
-	if (tYMin > tXMin) {
-		tXMin = tYMin;
-	}
-	if (tYMax < tXMax) {
-		tXMax = tYMax;
-	}
+	float t_xy_min = std::max(t_x_min, t_y_min);
+	float t_xy_max = std::min(t_x_max, t_y_max);
 
-	float tZMin = (minZ - Oz) / Dz;
-	float tZMax = (maxZ - Oz) / Dz;
-	if (tZMin > tZMax) {
-		std::swap(tZMin, tZMax);
-	}
-	if ((tXMin > tZMin) || (tZMin > tXMax)) {
+
+	float t_z_min = (min.z - origin.z) / direction.z;
+	float t_z_max = (max.z - origin.z) / direction.z;
+	if (t_z_min > t_z_max) {
 		return false;
 	}
-	float currHitMin = INFINITY;
-	for (auto child : this->children) {
-		if (child->checkIntersect(ray)) {
-			//hittime < hit min
-			float currHitTime = ray->getHitTime();
-			//std::cerr << currHitTime << "\n";
-			if (currHitTime > 0 && currHitTime < currHitMin) {
-				currHitMin = currHitTime;//update hit time
 
-			}
-		}
+	if ((t_xy_min > t_z_max) || (t_z_min > t_xy_max)) {
+		return false;
 	}
-	ray->handleHit(currHitMin);
+
 	return true;
 }
