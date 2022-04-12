@@ -4,7 +4,6 @@
 
 #include "Camera.h"
 #include "Light.h"
-#include "Object.h"
 #include "SceneLoader.h"
 #include "Grid.h"
 #include <vector>

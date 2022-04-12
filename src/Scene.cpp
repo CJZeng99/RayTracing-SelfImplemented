@@ -2,9 +2,6 @@
 
 Scene::Scene(const char* inputFile)
 {
-	this->gridMax = glm::vec3(-INFINITY, -INFINITY, -INFINITY);
-	this->gridMin = glm::vec3(INFINITY, INFINITY, INFINITY);
-	
 	SceneLoader sl(this);
 	sl.ReadFile(inputFile);
 	std::cerr << "Finished loading input file " << inputFile << "\n";
@@ -34,14 +31,17 @@ void Scene::InitGrid()
 		gmin.y = glm::min(gmin.y, obj->min.y);
 		gmin.z = glm::min(gmin.z, obj->min.z);
 	}
-	glm::vec3 size = ((gmax - gmin) / Grid::side) + 1.0f;
-
+	Grid::gridRes.x = std::ceil((gmax.x - gmin.x) / Grid::side);
+	Grid::gridRes.y = std::ceil((gmax.y - gmin.y) / Grid::side);
+	Grid::gridRes.z = std::ceil((gmax.z - gmin.z) / Grid::side);
+	Grid::gridMax = gmax;
+	Grid::gridMin = gmin;
 	
-	for (int xIdx = 0; xIdx < (int)size.x; xIdx++)
+	for (int xIdx = 0; xIdx < Grid::gridRes.x; xIdx++)
 	{
-		for (int yIdx = 0; yIdx < (int)size.y; yIdx++)
+		for (int yIdx = 0; yIdx < Grid::gridRes.y; yIdx++)
 		{
-			for (int zIdx = 0; zIdx < (int)size.z; zIdx++)
+			for (int zIdx = 0; zIdx < Grid::gridRes.z; zIdx++)
 			{
 				glm::vec3 thisMin = gmin + Grid::side * glm::vec3(xIdx, yIdx, zIdx);
 				Grid* g = new Grid(thisMin);
@@ -61,7 +61,7 @@ void Scene::InitGrid()
 
 void Scene::TakeScreenshots()
 {
-	Raytracer::tracer(cam, objects, lights);
+	Raytracer::tracer(cam, grids, lights, true);
 	cam->SaveScreenshot();
 }
 
@@ -69,14 +69,12 @@ glm::vec3 Scene::findFstIntersect(Ray* ray)
 {
 	//ray property
 	glm::vec3 rayOrigin = ray->getOrigin();
-	glm::vec3 rayDir = ray->getDirection();
+	glm::vec3 rayDirection = ray->getDirection();
 
 	//caculate first intersection
-	float deltaZ = gridMax.z - rayOrigin.z ;
-
-	float deltaT = deltaZ / rayDir.z;
-	float xPos = rayOrigin.x  + deltaT * rayDir.x;
-	float yPos = rayOrigin.y + deltaT * rayDir.y;
+	float t_init = (gridMax.z - rayOrigin.z) / rayDirection.z;
+	float xPos = rayOrigin.x + t_init * rayDirection.x;
+	float yPos = rayOrigin.y + t_init * rayDirection.y;
 
 	return glm::vec3(xPos, yPos, gridMax.z);
 }

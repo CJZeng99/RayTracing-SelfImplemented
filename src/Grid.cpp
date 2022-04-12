@@ -1,6 +1,9 @@
 #include "Grid.h"
 
 float Grid::side = 0.5f;
+glm::vec3 Grid::gridMax = glm::vec3(- INFINITY, -INFINITY, -INFINITY);
+glm::vec3 Grid::gridMin = glm::vec3( INFINITY, INFINITY, INFINITY);
+glm::ivec3 Grid::gridRes = glm::ivec3(0,0,0);
 
 Grid::Grid(const glm::vec3& min)
 {

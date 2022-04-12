@@ -230,7 +230,7 @@ void SceneLoader::ReadFile(const char* filename)
                 else if (cmd == "scale") {
                     validinput = ReadVals(s, 3, values);
                     if (validinput) {
-                        maxScale = std::max({ values[0], values[1], values[2] });
+                        maxScale = std::max(values[0], std::max(values[1], values[2] ));
                         transfstack.top() = transfstack.top() * glm::scale(glm::mat4(1.0f), glm::vec3(values[0], values[1], values[2]));
                     }
                 }
