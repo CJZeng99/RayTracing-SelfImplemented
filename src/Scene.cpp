@@ -60,3 +60,9 @@ void Scene::TakeScreenshots()
 	Raytracer::tracer(cam, objects, lights);
 	cam->SaveScreenshot();
 }
+
+void Scene::findFstIntersect(Ray* ray)
+{
+	//ray property
+	glm::vec3 origin;
+}

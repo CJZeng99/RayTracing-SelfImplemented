@@ -22,6 +22,7 @@ public:
 	
 	void InitGrid();
 	void TakeScreenshots();
+	void findFstIntersect(Ray * ray);
 };
 
 #endif
