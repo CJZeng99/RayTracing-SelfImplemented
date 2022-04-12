@@ -61,7 +61,7 @@ void Scene::InitGrid()
 
 void Scene::TakeScreenshots()
 {
-	Raytracer::tracer(cam, grids, lights, true);
+	Raytracer::tracer(cam, objects, lights, false);
 	cam->SaveScreenshot();
 }
 

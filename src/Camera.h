@@ -10,7 +10,7 @@
 #include "Object.h"
 #include "RayTracer.h"
 
-#define OUTPUT_DIR "output_acc/"
+#define OUTPUT_DIR "output/"
 
 class Camera
 {
