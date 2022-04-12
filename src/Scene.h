@@ -18,11 +18,13 @@ public:
 	Camera* cam;
 	std::vector<Light*> lights;
 	std::vector<Object*> grids;
+	glm::vec3 gridMin;
+	glm::vec3 gridMax;
 	std::vector<Object*> objects;
-	
+
 	void InitGrid();
 	void TakeScreenshots();
-	void findFstIntersect(Ray * ray);
+	glm::vec3 findFstIntersect(Ray * ray);
 };
 
 #endif

@@ -2,6 +2,9 @@
 
 Scene::Scene(const char* inputFile)
 {
+	this->gridMax = glm::vec3(-INFINITY, -INFINITY, -INFINITY);
+	this->gridMin = glm::vec3(INFINITY, INFINITY, INFINITY);
+	
 	SceneLoader sl(this);
 	sl.ReadFile(inputFile);
 	std::cerr << "Finished loading input file " << inputFile << "\n";
@@ -62,8 +65,18 @@ void Scene::TakeScreenshots()
 	cam->SaveScreenshot();
 }
 
-void Scene::findFstIntersect(Ray* ray)
+glm::vec3 Scene::findFstIntersect(Ray* ray)
 {
 	//ray property
-	glm::vec3 origin;
+	glm::vec3 rayOrigin = ray->getOrigin();
+	glm::vec3 rayDir = ray->getDirection();
+
+	//caculate first intersection
+	float deltaZ = gridMax.z - rayOrigin.z ;
+
+	float deltaT = deltaZ / rayDir.z;
+	float xPos = rayOrigin.x  + deltaT * rayDir.x;
+	float yPos = rayOrigin.y + deltaT * rayDir.y;
+
+	return glm::vec3(xPos, yPos, gridMax.z);
 }
